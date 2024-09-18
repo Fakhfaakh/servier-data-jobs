@@ -1,7 +1,7 @@
 import argparse
-from load import load_data
-from extract import extract_data
-from transform import clean_data, generate_graph
+from utils.load import load_data
+from utils.extract import extract_data
+from utils.transform import clean_data, generate_graph
 import logging
 
 logger = logging.getLogger(__name__)
