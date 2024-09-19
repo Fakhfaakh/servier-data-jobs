@@ -40,7 +40,21 @@ Python graph_generator.py --data_path ./data --destination ./data --bonus --targ
 
 ```
 
-### SQL 
+## Questions
+1. Quels sont les éléments à considérer pour faire évoluer votre code afin qu’il puisse gérer de grosses
+volumétries de données (fichiers de plusieurs To ou millions de fichiers par exemple) ?
+
+On peut essayer de pallèliser et distribuer le traitement et pour le faire on peut essayer de combiner Airflow avec Dask.  
+
+2. Pourriez-vous décrire les modifications qu’il faudrait apporter, s’il y en a, pour prendre en considération de
+telles volumétries ?
+
+- Lire les données par chunk
+- Remplacer pandas dataframes par dask dataframes
+- Créer un DAG en utilisant Airflow
+- Utiliser DaskExecutor au lieu de Celery
+
+## SQL 
 
 1. Montant total des ventes entre le 01/01/2019 et le 31/12/2019:
 
