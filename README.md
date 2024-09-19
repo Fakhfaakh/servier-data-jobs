@@ -27,13 +27,15 @@ Python graph_generator.py --data_path ./data --destination ./data
 
 1. Extract the journal that mentions the most different drugs:
 
-We just need to add the flag --print
+We just need to add the flag --bonus
 
 ```bash
 Python graph_generator.py --data_path ./data --destination ./data --bonus
 
 ```
 2. For a specific drug, find all the drugs mentionned by the same journals, referenced by PubMed but not clinical trials:
+
+We should add the argument --target_drug 'drug'
 
 ```bash
 Python graph_generator.py --data_path ./data --destination ./data --bonus --target_drug 'tetracycline'
