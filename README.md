@@ -52,6 +52,7 @@ telles volumétries ?
 - Lire les données par chunk
 - Remplacer pandas dataframes par dask dataframes
 - Créer un DAG en utilisant Airflow
+- Modifier la logique de traitement en favorisant le modèle MapReduce
 - Utiliser DaskExecutor au lieu de Celery
 
 ## SQL 
