@@ -27,7 +27,7 @@ def fill_group_values(input_df: pd.DataFrame, group_col_name: str):
         merge_rows).reset_index(drop=True)
     return df_filled
 
-
+# Remove duplicates based on subset
 def drop_duplicates_df(input_df: pd.DataFrame, subset):
     if subset:
         input_df.drop_duplicates(subset, inplace=True)
@@ -183,7 +183,7 @@ def generate_graph(in_df_clinical_trials: pd.DataFrame, in_df_pubmed: pd.DataFra
 # PART I - Extract the journal that mentions the most different drugs
 
 
-def extract_journal_with_most_drugs(data_:list):
+def extract_journal_with_most_drugs(data_: list):
 
     # Initialize a defaultdict of sets
     journal_to_drugs = defaultdict(set)
@@ -215,7 +215,7 @@ def extract_journal_with_most_drugs(data_:list):
 # PART II - Find related drugs mentioned by the same journals, referenced by PubMed but not by clinical trials
 
 
-def find_related_drugs_not_in_clinical_trials(target_drug:str, data_:list):
+def find_related_drugs_not_in_clinical_trials(target_drug: str, data_: list):
     related_drugs = set()
     unrelated_drugs = set()
     # Find journals that mentions the specified drug
