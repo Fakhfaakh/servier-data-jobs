@@ -1,17 +1,17 @@
 import argparse
 from utils.load import load_data
-from utils.extract import extract_data
-from utils.transform import clean_data, generate_graph, extract_journal_with_most_drugs, find_related_drugs_not_in_clinical_trials
+from utils.extract import extract_project_data
+from utils.transform import clean_project_data, generate_graph, extract_journal_with_most_drugs, find_related_drugs_not_in_clinical_trials
 import logging
 
 logger = logging.getLogger(__name__)
 
 def generate_drugs_graph(data_path_:str, destination_:str):
     # loading data
-    clinical_trials, pubmed, drugs = extract_data(data_path_)
+    clinical_trials, pubmed, drugs = extract_project_data(data_path_)
     logger.info("------ DATA SUCCESSFULLY EXTRACTED")
     # cleaning data
-    clinical_trials, pubmed, drugs = clean_data(clinical_trials), clean_data(pubmed), clean_data(drugs)
+    clinical_trials, pubmed, drugs = clean_project_data(clinical_trials, pubmed, drugs)
     logger.info("------ DATA SUCCESSFULLY CLEANED")
 
     # building the graph
