@@ -8,18 +8,24 @@
     source your_venv_name/bin/activate
 ```
 
-2. Install Requirements from requirements.txt
+2. Install poetry using pip
 
 ```bash
-    pip install -r requirements.txt
+    pip install poetry
 ```
 
-3. Run the script
+3. Install dependencies
+
+```bash
+    poetry install
+```
+
+4. Run the script
 
 if your data is in a folder named 'data' within the same directory you can run:
 
 ```bash
-Python graph_generator.py --data_path ./data --destination ./data
+poetry run python main.py --data_path ./data --destination ./data
 
 ```
 
@@ -30,7 +36,7 @@ Python graph_generator.py --data_path ./data --destination ./data
 We just need to add the flag --bonus
 
 ```bash
-Python graph_generator.py --data_path ./data --destination ./data --bonus
+poetry run python main.py --data_path ./data --destination ./data --bonus
 
 ```
 2. For a specific drug, find all the drugs mentionned by the same journals, referenced by PubMed but not clinical trials:
@@ -38,7 +44,7 @@ Python graph_generator.py --data_path ./data --destination ./data --bonus
 We should add the argument --target_drug 'drug'
 
 ```bash
-Python graph_generator.py --data_path ./data --destination ./data --bonus --target_drug 'tetracycline'
+poetry run python main.py --data_path ./data --destination ./data --bonus --target_drug 'tetracycline'
 
 ```
 
