@@ -59,7 +59,7 @@ telles volumétries ?
 
 - Lire les données par chunk
 - Remplacer pandas dataframes par dask dataframes
-- Créer un DAG en utilisant Airflow
+- Créer un DAG en utilisant Airflow en utilisant soit des PythonOperator soit un KubernetesPodOperator si on a une image Docker deployé sur Artifact registry (si on est sur GCP/Composer)
 - Modifier la logique de traitement en favorisant le modèle MapReduce
 - Utiliser DaskExecutor au lieu de Celery
 
