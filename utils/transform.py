@@ -28,6 +28,8 @@ def fill_group_values(input_df: pd.DataFrame, group_col_name: str):
     return df_filled
 
 # Remove duplicates based on subset
+
+
 def drop_duplicates_df(input_df: pd.DataFrame, subset):
     if subset:
         input_df.drop_duplicates(subset, inplace=True)
@@ -42,8 +44,12 @@ def drop_records_with_empty_titles(input_df: pd.DataFrame):
 
 
 # Remove leading and trailing whitespaces and convert all text to lowercase
+# if the value is None return an empty string
 def strip_and_lower_str(txt_: str):
-    return txt_.strip().lower()
+    if txt_:
+        return txt_.strip().lower()
+    else:
+        return ""
 
 
 # Convert all dates to one uniform format (dd/mm/YYYY)
@@ -52,43 +58,40 @@ def uniform_dates(input_df: pd.DataFrame):
         lambda x: pd.to_datetime(x).strftime('%d/%m/%Y'))
 
 
-"""
-remove_undecoded_chars handles (eliminates) undecoded characters like \xc3 and \x28 in the data (journal and title).
-    Args:
-    input_df: pd.DataFrame = data
-    col_name: str = target column where the operation will run.
-"""
-
-
 def remove_undecoded_chars(input_df: pd.DataFrame, col_name: str):
+    """
+    remove_undecoded_chars handles (eliminates) undecoded characters like \xc3 and \x28 in the data (journal and title).
+        Args:
+        input_df: pd.DataFrame = data
+        col_name: str = target column where the operation will run.
+    """
     input_df[col_name] = input_df[col_name].apply(
-        lambda x: re.sub('\\\\.\w{1,3}', '', x))
-
-
-"""
-clean_data performs the following actions:
-    - Replacing 'nan' strings with actual null values
-    - Renaming title column name to title in order to have the same column names in pubmed and clinical_trials data
-    - Removing duplicates based on title for pubmed and clinical_trials and based on atccode for drugs
-    - Removing empty strings in title (+trailing and leanding whitespaces)
-    - Converting dates to one unique format (dd/mm/YYYY)
-
-    Args:
-    input_df: pandas.DataFrame
-"""
+        lambda x: re.sub("\\\\x.\w{1,2}", '', x))
 
 
 def clean_data(input_df: pd.DataFrame):
+    """
+    clean_data performs the following actions:
+        - Replacing 'nan' strings with actual null values
+        - Renaming title column name to title in order to have the same column names in pubmed and clinical_trials data
+        - Removing duplicates based on title for pubmed and clinical_trials and based on atccode for drugs
+        - Removing empty strings in title (+trailing and leanding whitespaces)
+        - Converting dates to one unique format (dd/mm/YYYY)
+
+        Args:
+        input_df: pandas.DataFrame
+    """
     # Replace 'nan' strings with actual NaN values (useful for finding and filling missing values later)
     fix_nan(input_df)
     # Rename scientific_title to title in order to have the same column name in both dataframes (clinical_tirals and pubmed)
     if 'scientific_title' in input_df.columns:
         rename_title(input_df, 'scientific_title')
-        # Filling missing journal values based on title (groupby title)
-        input_df = fill_group_values(input_df, 'title')
 
     # Also remove duplicates based on title as the id can be null
     if 'title' in input_df.columns:
+        # Filling missing values based on title (groupby title)
+        input_df = fill_group_values(input_df, 'title')
+        # Now we can drop records with empty title values ("")
         drop_records_with_empty_titles(input_df)
         drop_duplicates_df(input_df, 'title')
         input_df.title = input_df.title.apply(strip_and_lower_str)
@@ -111,19 +114,16 @@ def clean_project_data(clinical_trials_data: pd.DataFrame, pubmed_data: pd.DataF
     return clean_data(clinical_trials_data), clean_data(pubmed_data), clean_data(drugs_data)
 
 
-"""
-generate_graph creates a json graph to model relations between drugs and journals based on publications from
-PubMed and clinical trials
-    Args:
-    in_df_clinical_trials: pd.DataFrame corresponds to clinical trials data
-    in_df_pubmed: pd.DataFrame corresponds to PubMed data
-    in_df_drugs: pd.DataFrame corresponds to drugs data
-
-"""
-
-
 def generate_graph(in_df_clinical_trials: pd.DataFrame, in_df_pubmed: pd.DataFrame, in_df_drugs: pd.DataFrame):
+    """
+    generate_graph creates a json graph to model relations between drugs and journals based on publications from
+    PubMed and clinical trials
+        Args:
+        in_df_clinical_trials: pd.DataFrame corresponds to clinical trials data
+        in_df_pubmed: pd.DataFrame corresponds to PubMed data
+        in_df_drugs: pd.DataFrame corresponds to drugs data
 
+    """
     # Initialize results list
     results = []
     # Create a set of drugs to avoid duplicates
