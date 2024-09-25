@@ -19,8 +19,13 @@
 ```bash
     poetry install
 ```
+4. Run Tests
 
-4. Run the script
+```bash
+    poetry run python3 -m unittest discover tests
+```
+
+5. Run the script
 
 if your data is in a folder named 'data' within the same directory you can run:
 
