@@ -75,13 +75,7 @@ class TestTransform(unittest.TestCase):
             ]
         }
 
-    # def test_clean(self):
-    #     self.init_input()
-    #     self.input_df = pd.DataFrame(self.input_, columns=["id", "title", "date", "journal"])
-    #     self.expected_df = pd.DataFrame(self.expected_transformed_input_, columns=["id", "title", "date", "journal"])
-    #     assert_frame_equal(self.expected_df, clean_data(self.input_df))
-
-    def test_generate_graph(self):
+    def test_clean(self):
         self.init_input()
         self.input_df = pd.DataFrame(
             self.input_, columns=["id", "title", "date", "journal"])
